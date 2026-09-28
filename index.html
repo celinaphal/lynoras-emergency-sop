@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emergency SOPs: Internet, Toast &amp; Phone Outage — Lynora's</title>
+<style>
+  :root {
+    --bg: #faf5ec;
+    --surface: #ffffff;
+    --surface-alt: #fdefd7;
+    --ink: #2a2420;
+    --ink-muted: #5c5140;
+    --ink-faint: #a5987e;
+    --rust: #a83b29;
+    --burgundy: #6b2a2f;
+    --accent: #a13d2f;
+    --border: #e8ddc8;
+    --border-strong: #e3bfb2;
+    --ok-bg: #eef3ee;
+    --ok-ink: #3f6b52;
+    --warn-bg: #f7eeda;
+    --warn-ink: #a3781f;
+    --stop-bg: #f7e6e0;
+    --stop-ink: #a13d2f;
+    --badge-ink: #f8dfe2;
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #211a16;
+      --surface: #2b221d;
+      --surface-alt: #3a2b22;
+      --ink: #f3ece1;
+      --ink-muted: #cdbda6;
+      --ink-faint: #a3907a;
+      --rust: #e8836c;
+      --burgundy: #e0c9a3;
+      --accent: #e8836c;
+      --border: #4a3a2e;
+      --border-strong: #5c3f38;
+      --ok-bg: #23322a;
+      --ok-ink: #8fc4a4;
+      --warn-bg: #3a3220;
+      --warn-ink: #dcb567;
+      --stop-bg: #3a241f;
+      --stop-ink: #e8836c;
+      --badge-ink: #2b221d;
+      color-scheme: dark;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #211a16;
+    --surface: #2b221d;
+    --surface-alt: #3a2b22;
+    --ink: #f3ece1;
+    --ink-muted: #cdbda6;
+    --ink-faint: #a3907a;
+    --rust: #e8836c;
+    --burgundy: #e0c9a3;
+    --accent: #e8836c;
+    --border: #4a3a2e;
+    --border-strong: #5c3f38;
+    --ok-bg: #23322a;
+    --ok-ink: #8fc4a4;
+    --warn-bg: #3a3220;
+    --warn-ink: #dcb567;
+    --stop-bg: #3a241f;
+    --stop-ink: #e8836c;
+    --badge-ink: #2b221d;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Public Sans", -apple-system, sans-serif;
+    margin: 0;
+    padding-inline: 20px;
+    padding-block: 32px 64px;
+  }
+
+  h1, h2, h3, .display {
+    font-family: "Poppins", "Public Sans", sans-serif;
+    color: var(--rust);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+  /* Hero */
+  .hero {
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px clamp(20px, 5vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .hero img.logo { height: 68px; width: auto; max-width: 100%; object-fit: contain; display: block; }
+  .contact-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .contact-strip span { white-space: nowrap; }
+  .hero h1 { font-size: clamp(28px, 5vw, 38px); font-weight: 600; line-height: 1.1; }
+  .hero p.lede {
+    font-size: 15px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    max-width: 56ch;
+    margin: 0;
+  }
+  .updated {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 700;
+  }
+
+  /* Section shell */
+  section.issue {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 30px clamp(20px, 5vw, 38px) 34px;
+    box-shadow: 0 1px 2px rgba(42,36,32,0.04);
+    display: flex;
+    flex-direction: column;
+  }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  section.issue h2 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  section.issue .confirm {
+    font-size: 14px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+    max-width: 62ch;
+    margin: 10px 0 20px;
+  }
+  section.issue .confirm strong { color: var(--ink); }
+  section.issue > * + * { margin-top: 16px; }
+  section.issue .step-card + .step-card { margin-top: 14px; }
+
+  /* Location table */
+  .loc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 0 0 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .loc-table th, .loc-table td {
+    text-align: left;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .loc-table th {
+    background: var(--surface-alt);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .loc-table tr:last-child td { border-bottom: none; }
+  .loc-table td { color: var(--ink); background: var(--surface); }
+
+  /* Step card */
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .step-card + .step-card { margin-top: 14px; }
+  .step-card .step-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .steps li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .steps li .n {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 100px;
+    background: var(--burgundy);
+    color: var(--badge-ink);
+    font-size: 11.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  /* Photo */
+  .photo-box {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface-alt);
+  }
+  .photo-box .photo-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    padding: 18px;
+  }
+  .photo-box img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+  .photo-box figcaption {
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    padding: 8px 12px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .photo-placeholder {
+    border: 2px dashed var(--border-strong);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface-alt) 55%, transparent);
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-align: center;
+    min-height: 80px;
+  }
+  .photo-placeholder svg { width: 24px; height: 24px; stroke: var(--ink-faint); }
+  .photo-placeholder .label { font-size: 12px; font-weight: 600; color: var(--ink-muted); }
+
+  /* Callout banners */
+  .banner {
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .banner.stop { background: var(--stop-bg); color: var(--stop-ink); border: 1px solid var(--border-strong); }
+  .banner.stop strong { color: var(--stop-ink); }
+  .banner.warn { background: var(--warn-bg); color: var(--warn-ink); }
+  .banner.ok { background: var(--ok-bg); color: var(--ok-ink); }
+
+  .banner.critical {
+    background: var(--stop-bg);
+    color: var(--stop-ink);
+    border: 2px solid var(--stop-ink);
+    font-size: 15.5px;
+    line-height: 1.6;
+    font-weight: 700;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .banner.critical svg { flex: none; width: 26px; height: 26px; stroke: var(--stop-ink); margin-top: 1px; }
+  .banner.critical .critical-label {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .banner.critical p { margin: 0; font-weight: 600; }
+
+  /* Escalation / contacts banner */
+  .contacts {
+    background: var(--burgundy);
+    color: #f7ecdf;
+    border-radius: 14px;
+    padding: 28px clamp(20px, 5vw, 34px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .contacts h2 { color: #f7ecdf; font-size: 20px; }
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+  }
+  .contact-item { display: flex; flex-direction: column; gap: 4px; min-width: 200px; }
+  .contact-item .role {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #e8c9a3;
+  }
+  .contact-item .value {
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .contact-item a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+  .copy-btn {
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    background: rgba(247,236,223,0.14);
+    color: #f7ecdf;
+    border: 1px solid rgba(247,236,223,0.35);
+    border-radius: 100px;
+    padding: 3px 10px;
+    cursor: pointer;
+  }
+  .copy-btn:hover { background: rgba(247,236,223,0.24); }
+  .copy-btn:focus-visible, a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 480px) {
+    .loc-table { font-size: 12.5px; }
+    .contact-item { min-width: 100%; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <img class="logo" src="assets/lynoras-logo.png" alt="Lynora's">
+    <div class="contact-strip">
+      <span>TSA Direct Line: 561-201-2718</span>
+      <span>celina@lynoras.com</span>
+    </div>
+    <div>
+      <div class="updated">Emergency SOP · Updated Sep 28, 2026</div>
+      <h1>Emergency SOPs: Internet, Toast &amp; Phone Outage</h1>
+    </div>
+    <p class="lede">What to do the moment internet, Toast, or phones go down at a location — work the steps in order, and call TSA if the issue isn't resolved.</p>
+  </header>
+
+  <section class="issue" id="internet">
+    <div class="section-eyebrow">01 — Internet Down</div>
+    <h2>Internet Down</h2>
+    <p class="confirm"><strong>Confirm it's actually the internet — not just Toast.</strong> Test wifi on a computer and a phone. You may see a yellow banner across your terminals, but if wifi on other devices is working fine, that is NOT an internet issue — it's Toast (see Section 02). If wifi on your phone or computer isn't working either, internet is confirmed down.</p>
+
+    <table class="loc-table">
+      <thead>
+        <tr><th>Location</th><th>Provider</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Alton</td><td>Comcast Business</td></tr>
+        <tr><td>Boca Raton</td><td>Comcast Business</td></tr>
+        <tr><td>Dixie</td><td>Comcast Business</td></tr>
+        <tr><td>Palm City</td><td>Comcast Business</td></tr>
+        <tr><td>Jupiter</td><td>Comcast Business</td></tr>
+        <tr><td>Clematis</td><td>IPFone</td></tr>
+        <tr><td>Melbourne</td><td>Spectrum Business</td></tr>
+      </tbody>
+    </table>
+
+    <figure class="photo-box">
+      <div class="photo-frame"><img src="assets/internet-router.jpg" alt="Internet router for this location"></div>
+      <figcaption>Internet router — Comcast/Spectrum/IPFone box, per location above</figcaption>
+    </figure>
+
+    <div class="step-card">
+      <div class="step-label">Reset it</div>
+      <ol class="steps">
+        <li><span class="n">1</span><span>Unplug the power cable to the router for a full minute.</span></li>
+        <li><span class="n">2</span><span>Plug it back in and wait for it to resync — this can take 5–10 minutes.</span></li>
+        <li><span class="n">3</span><span>Still down? Search for outages with your internet provider in your area.</span></li>
+        <li><span class="n">4</span><span>Reach out to TSA immediately.</span></li>
+      </ol>
+    </div>
+
+    <div class="banner critical">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>
+        <span class="critical-label">While internet is down</span>
+        <p>Use only ONE terminal for everything — ringing in, payments, across bar, servers, and hosts. Never turn that terminal off. All payments will be taken offline on it. Once internet is restored, that terminal syncs sales and payments automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="issue" id="toast">
+    <div class="section-eyebrow">02 — Toast Down</div>
+    <h2>Toast Down</h2>
+    <p class="confirm"><strong>Confirm it's a Toast issue.</strong> All terminals showing a yellow banner, but wifi on your phone or computer works fine? This is Toast, not internet.</p>
+
+    <div class="banner critical">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>
+        <span class="critical-label">Check the color</span>
+        <p>The Toast Router MUST be solid WHITE for the issue to be resolved — that means it's working correctly. Red or blinking means it is still NOT working. Keep going through the steps below until it's white.</p>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-label">Step 1 — Toast Router</div>
+      <figure class="photo-box">
+        <div class="photo-frame"><img src="assets/toast-router.jpg" alt="Toast Router box"></div>
+        <figcaption>Toast Router — the box that goes red/green/rainbow while resyncing</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><span class="n">1</span><span>Is it red or blinking? If so, unplug its power cable for a minute, then plug back in.</span></li>
+        <li><span class="n">2</span><span>Wait for it to resync (5–10 minutes) — it will blink green and red while it attempts to reconnect.</span></li>
+        <li><span class="n">3</span><span>If it goes back to red, continue to Step 2.</span></li>
+      </ol>
+    </div>
+
+    <div class="step-card">
+      <div class="step-label">Step 2 — Wifi Router</div>
+      <ol class="steps">
+        <li><span class="n">1</span><span>Unplug the wifi router for a resync as well.</span></li>
+        <li><span class="n">2</span><span>The Toast Router should go rainbow again as it reattempts.</span></li>
+        <li><span class="n">3</span><span>If it goes back to red, continue to Step 3.</span></li>
+      </ol>
+    </div>
+
+    <div class="step-card">
+      <div class="step-label">Step 3 — TP-Link</div>
+      <figure class="photo-box">
+        <div class="photo-frame"><img src="assets/tp-link.png" alt="TP-Link switch"></div>
+        <figcaption>TP-Link — the switch with the row of ethernet cables</figcaption>
+      </figure>
+      <ol class="steps">
+        <li><span class="n">1</span><span>Unplug the power cord from the back.</span></li>
+        <li><span class="n">2</span><span>Plug it back in (replug).</span></li>
+        <li><span class="n">3</span><span>Wait for it to resync.</span></li>
+        <li><span class="n">4</span><span>Check the color of the Toast Router — nothing will work until it stays solid white.</span></li>
+      </ol>
+    </div>
+
+    <div class="banner stop"><strong>Still down?</strong> Call TSA.</div>
+  </section>
+
+  <section class="issue" id="phones">
+    <div class="section-eyebrow">03 — Phones Down</div>
+    <h2>Phones Down</h2>
+    <p class="confirm">Find the repeater — usually located behind the bar or near the phones. If resyncing it doesn't fix the issue, call IPFone's 24/7 support line at <strong>(877) 781-6280</strong> and ask them to forward calls to a number of your choice while you sort it out.</p>
+
+    <figure class="photo-box">
+      <div class="photo-frame"><img src="assets/repeater.png" alt="Phone repeater"></div>
+      <figcaption>Repeater — usually behind the bar or near the phones</figcaption>
+    </figure>
+
+    <div class="step-card">
+      <ol class="steps">
+        <li><span class="n">1</span><span>Unplug the repeater's power cable and plug it back in to resync.</span></li>
+        <li><span class="n">2</span><span>Still down after resyncing? Call IPFone's 24/7 support line for emergencies (number below).</span></li>
+        <li><span class="n">3</span><span>Let them know your phones are down and request call forwarding to a number of your choice — such as the MOD phone — so no calls are missed. They can configure this quickly on their end.</span></li>
+      </ol>
+    </div>
+
+    <div class="banner warn">TSA cannot access these call-forwarding settings directly — IPFone must configure it by phone.</div>
+    <div class="banner ok"><strong>At the end of the night:</strong> call IPFone back to reverse the call forwarding.</div>
+  </section>
+
+  <section class="contacts" id="contacts">
+    <h2>Emergency Contacts</h2>
+    <div class="contact-row">
+      <div class="contact-item">
+        <span class="role">Internet, Toast &amp; unresolved issues</span>
+        <span class="value">TSA — Celina Phal · 561-201-2718</span>
+      </div>
+      <div class="contact-item">
+        <span class="role">Phone call forwarding (emergency)</span>
+        <span class="value">
+          IPFone 24/7 Support: (877) 781-6280
+          <button class="copy-btn" type="button" data-copy="8777816280">Copy</button>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <footer>Lynora's · Technology Systems</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var original = btn.textContent;
+      var done = function () { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = original; }, 1500); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () {
+          try {
+            var r = document.createRange();
+            var sel = window.getSelection();
+            r.selectNodeContents(btn.parentElement);
+            sel.removeAllRanges();
+            sel.addRange(r);
+          } catch (e) {}
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
